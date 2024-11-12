@@ -177,6 +177,7 @@ def main(argv):
 
   # Computes the gradients wrt. the sum of losses, returns a list of them.
   def grad(model, inputs):
+    inputs = [tf.sparse.to_dense(input_tensor) if isinstance(input_tensor, tf.sparse.SparseTensor) else input_tensor for input_tensor in inputs]
     with tf.GradientTape() as tape:
       _ = model(inputs, training=True)
       loss_value = sum(model.losses)
